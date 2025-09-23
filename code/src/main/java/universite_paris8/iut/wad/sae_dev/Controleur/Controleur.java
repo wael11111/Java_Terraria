@@ -64,7 +64,7 @@ public class Controleur implements Initializable {
     private PnjDonutVue pnjDonutVue;
     private BrosseADentVue brosseADentVue;
     private DentifriceVolantVue DentifriceVolantVue;
-private ImageView gameOverImageView;
+    private ImageView gameOverImageView;
 
     private InventaireVue inventaireVue;
     private VieVue barreDeVieVue;
@@ -206,7 +206,7 @@ private ImageView gameOverImageView;
         pnjJakeVue.mettreAJourAffichage();
     }
 // Dans la méthode gererProjectiles() du Controleur.java, ajoutez cette logique :
-
+//TODO A DEPLACER
     public void gererProjectiles() {
         // Création de nouveaux projectiles du dentifrice volant
         if (dentifriceVolant.peutTirer()) {
@@ -227,6 +227,7 @@ private ImageView gameOverImageView;
     /**
      * Gère les collisions entre les projectiles du joueur et les ennemis
      */
+    //TODO A DEPlACER
     private void gererCollisionsProjectilesEnnemis() {
         List<Projectile> projectilesASupprimer = new ArrayList<>();
 
@@ -269,9 +270,12 @@ private ImageView gameOverImageView;
         }
     }
 
+
     /**
      * Vérifie si un projectile touche un ennemi
      */
+    //TODO A DEPlACER
+
     private boolean projectileToucheEnnemi(Projectile projectile, Ennemi ennemi) {
         int distanceX = Math.abs(projectile.getX() - ennemi.getX());
         int distanceY = Math.abs(projectile.getY() - ennemi.getY());
@@ -282,6 +286,7 @@ private ImageView gameOverImageView;
         return distanceX < seuilCollision && distanceY < seuilCollision;
     }
 
+    //TODO A DEPlACER
     public void creerProjectileDentifrice() {
         int projectileX = this.dentifriceVolant.getPositionTirX();
         int projectileY = this.dentifriceVolant.getPositionTirY();
@@ -295,6 +300,7 @@ private ImageView gameOverImageView;
         this.terrainVue.ajouterProjectileVue(projectileVue);
     }
 
+    //TODO A DEPlACER
     public void gererVie() {
         // Collision avec la brosse à dent (seulement si elle n'est pas morte)
         if (!brosseADent.estMort() && this.brosseADent.toucheJoueur()) {
@@ -310,6 +316,7 @@ private ImageView gameOverImageView;
         }
     }
 
+    //TODO A DEPlACER
     public void tirerFlecheDuJoueur(int direction) {
         int flecheX = this.joueur.getX() + 35;
         int flecheY = this.joueur.getY() + 10;
@@ -351,10 +358,6 @@ private ImageView gameOverImageView;
             e.printStackTrace();
         }    }
 
-    // Getters pour l'accès aux modèles (si nécessaire pour d'autres classes)
-    public Terrain getTerrain() { return terrain; }
-    public Inventaire getInventaire() { return inventaire; }
-    public InventaireVue getInventaireVue() { return inventaireVue; }
 
     /**
      * Gère le retour au menu principal
