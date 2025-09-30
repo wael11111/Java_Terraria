@@ -2,28 +2,31 @@ package universite_paris8.iut.wad.sae_dev.Modele;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+/*
 
+ */
 public abstract class Personnage {
 
-        // Propriétés observables pour la position et l'état
+
+        private final Terrain terrain; // TODO à terme remplacer par Jeu
+
+        // Propriétés observables pour la position et le déplacement
         private final IntegerProperty x = new SimpleIntegerProperty();
         private final IntegerProperty y = new SimpleIntegerProperty();
-        private final IntegerProperty direction = new SimpleIntegerProperty(0);
-        private final IntegerProperty vie = new SimpleIntegerProperty();
-
-        // Caractéristiques physiques
         private final int largeur;
         private final int hauteur;
-        private final int vitesse;
-        private final int vieMax;
 
-        // Référence au terrain
-        private final Terrain terrain;
+        private final IntegerProperty direction = new SimpleIntegerProperty(0);
+        private final int vitesse;
 
         // Gestion de la physique
         private boolean dansLesAirs = false;
         private double velociteY = 0;
         private static final double GRAVITE = 0.6;
+
+
+        private final int vieMax;
+        private final IntegerProperty vie = new SimpleIntegerProperty();
 
         public Personnage(int x, int y, int largeur, int hauteur, int vitesse, int vieMax, Terrain terrain) {
                 this.x.set(x);
@@ -92,7 +95,7 @@ public abstract class Personnage {
          */
         private boolean peutSeDeplacerEn(int nouveauX, int nouveauY) {
                 return nouveauX >= 0
-                        && nouveauX + largeur <= terrain.getLargeurPixels()
+                        && nouveauX + largeur <= terrain.largeurEnPixels()
                         && !terrain.collision(nouveauX, nouveauY + hauteur)
                         && !terrain.collision(nouveauX + largeur, nouveauY + hauteur);
         }

@@ -77,7 +77,7 @@ public class DentifriceVolant extends Ennemi {
     }
 
     public boolean peutSeDeplacerHorizontalement(int nouveauX) {
-        boolean dansLesLimites = nouveauX >= 0 && nouveauX + getLargeur() <= getTerrain().getLargeurPixels();
+        boolean dansLesLimites = nouveauX >= 0 && nouveauX + getLargeur() <= getTerrain().largeurEnPixels();
 
         // Pour un drone, on vérifie uniquement les collisions avec les murs latéraux
         // et non pas les blocs en dessous

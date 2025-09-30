@@ -1,8 +1,5 @@
 package universite_paris8.iut.wad.sae_dev.Modele;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class Ennemi extends Personnage {
 
     private Joueur joueur;
@@ -30,7 +27,7 @@ public abstract class Ennemi extends Personnage {
      */
     public boolean peutSeDeplacerHorizontalement(int nouveauX) {
         // Vérifier les limites du terrain
-        boolean dansLesLimites = nouveauX >= 0 && nouveauX + getLargeur() <= getTerrain().getLargeurPixels();
+        boolean dansLesLimites = nouveauX >= 0 && nouveauX + getLargeur() <= getTerrain().largeurEnPixels();
 
         if (!dansLesLimites) {
             return false;

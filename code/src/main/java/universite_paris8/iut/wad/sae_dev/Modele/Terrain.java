@@ -1,10 +1,17 @@
-// Cette classe définit la structure du terrain sous forme d'une grille de tuiles codées par des entiers.
+
 
 package universite_paris8.iut.wad.sae_dev.Modele;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+
+/*
+ * Cette classe définit la structure du terrain sous forme d'une grille de tuiles codées par des entiers.
+ */
+
+//TODO faire deux classes : Terrain et Jeu
 
 public class Terrain {
 
@@ -159,7 +166,7 @@ public class Terrain {
         return this.typesTuiles[0].length;
     }
 
-    public int getLargeurPixels() {
+    public int largeurEnPixels() {
         return largeur() * TAILLE_TUILE;
     }
 
