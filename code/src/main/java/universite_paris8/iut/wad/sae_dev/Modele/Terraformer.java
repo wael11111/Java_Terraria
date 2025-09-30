@@ -22,18 +22,18 @@ public class Terraformer {
     public int gererTerraforming(int x, int y) {
         int tailleTuile = terrain.getTailleTuile();
 
-        // ✅ Vérifie que les coordonnées sont dans le terrain
+        //  Vérifie que les coordonnées sont dans le terrain
         if (x < 0 || x >= terrain.largeur() || y < 0 || y >= terrain.hauteur()) {
             return -1;
         }
 
-        // 📍 Coordonnées du joueur en cases
+        //  Coordonnées du joueur en cases
         int joueurXGauche = joueur.getX() / tailleTuile;
         int joueurXDroite = (joueur.getX() + joueur.getLargeur()) / tailleTuile;
         int joueurY = joueur.getY() / tailleTuile;
         int joueurYBas = (joueur.getY() + joueur.getHauteur()) / tailleTuile;
 
-        // 🔒 Empêche de casser/poser sur le joueur
+        //  Empêche de casser/poser sur le joueur
         boolean surJoueur = (x >= joueurXGauche && x <= joueurXDroite)
                 && (y >= joueurY && y <= joueurYBas);
 
@@ -46,7 +46,7 @@ public class Terraformer {
         if (tropLoin) return -1;
         if (surJoueur) return -2;
 
-        // ✅ Si tout va bien, on retourne le type de tuile
+        //  Si tout va bien, on retourne le type de tuile
         return terrain.typeTuile(x, y);
     }
 
@@ -62,14 +62,14 @@ public class Terraformer {
             return "Impossible de poser un bloc sur le joueur !";
         }
 
-        // 🌱 Utilisation du matériau sélectionné dans l’inventaire
+        //  Utilisation du matériau sélectionné dans l’inventaire
         TypeMateriaux materiauxRequis = inventaire.getMateriauCaseSelectionne();
         if (materiauxRequis == null) return "Aucun matériau sélectionné.";
 
         int blocSelectionne = inventaire.materiauxVersTypeBloc(materiauxRequis);
 
         if (type == 1) {
-            // 🟦 Case ciel : poser un bloc transparent si assez de matériaux
+            //  Case ciel : poser un bloc transparent si assez de matériaux
             if (materiauxRequis.getRole() == Role.CONSTRUCTION && inventaire.contientMateriaux(materiauxRequis)) {
                 int blocTransparent = terrain.versionTransparente(blocSelectionne);
                 terrain.modifierBloc(x, y, blocTransparent);
@@ -79,7 +79,7 @@ public class Terraformer {
             }
 
         } else if (terrain.estTransparent(type)) {
-            // 🔁 Transformation du bloc transparent en bloc normal
+            //  Transformation du bloc transparent en bloc normal
             int blocNormal = terrain.versionNormal(type);
             if (materiauxRequis.getRole() == Role.CONSTRUCTION && inventaire.contientMateriaux(materiauxRequis)) {
                 if (inventaire.retirerMateriaux(materiauxRequis, 1)) {
