@@ -1,8 +1,8 @@
-package universite_paris8.iut.wad.sae_dev.Vue;
+package universite_paris8.iut.wad.sae_dev.Vue.Entites;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
-import universite_paris8.iut.wad.sae_dev.Modele.BrosseADent;
+import universite_paris8.iut.wad.sae_dev.Modele.Entites.BrosseADent;
 
 public class BrosseADentVue extends PersonnageVue {
 

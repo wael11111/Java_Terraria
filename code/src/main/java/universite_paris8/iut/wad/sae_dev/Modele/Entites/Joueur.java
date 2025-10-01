@@ -1,7 +1,6 @@
-package universite_paris8.iut.wad.sae_dev.Modele;
+package universite_paris8.iut.wad.sae_dev.Modele.Entites;
 
-import java.util.ArrayList;
-import java.util.List;
+import universite_paris8.iut.wad.sae_dev.Modele.Terrain;
 
 public class Joueur extends Personnage {
 

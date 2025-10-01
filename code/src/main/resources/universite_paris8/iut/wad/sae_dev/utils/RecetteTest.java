@@ -1,7 +1,6 @@
-package universite_paris8.iut.wad.sae_dev.Modele;
+package universite_paris8.iut.wad.sae_dev.utils;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Map;
 

@@ -1,9 +1,10 @@
-package universite_paris8.iut.wad.sae_dev.Modele;
+package universite_paris8.iut.wad.sae_dev.Modele.Projectiles;
 
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import universite_paris8.iut.wad.sae_dev.Modele.Entites.Joueur;
+import universite_paris8.iut.wad.sae_dev.Modele.Entites.Personnage;
+import universite_paris8.iut.wad.sae_dev.Modele.Terrain;
 
 public abstract class Projectile {
     private final IntegerProperty x = new SimpleIntegerProperty();

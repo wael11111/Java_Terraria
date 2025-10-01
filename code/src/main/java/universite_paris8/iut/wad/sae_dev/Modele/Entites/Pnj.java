@@ -1,11 +1,13 @@
-package universite_paris8.iut.wad.sae_dev.Modele;
+package universite_paris8.iut.wad.sae_dev.Modele.Entites;
+
+import universite_paris8.iut.wad.sae_dev.Modele.Terrain;
 
 public abstract class Pnj extends Personnage {
 
     private Joueur joueur;
 
 
-    public Pnj(int x, int y, Terrain terrain,Joueur joueur, int largeur, int hauteur) {
+    public Pnj(int x, int y, Terrain terrain, Joueur joueur, int largeur, int hauteur) {
         super(x, y, largeur, hauteur, 2, 1, terrain);
         this.joueur = joueur;
         setDirection(1);

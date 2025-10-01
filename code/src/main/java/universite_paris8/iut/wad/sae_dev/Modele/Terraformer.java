@@ -1,5 +1,6 @@
 package universite_paris8.iut.wad.sae_dev.Modele;
 
+import universite_paris8.iut.wad.sae_dev.Modele.Entites.Joueur;
 import universite_paris8.iut.wad.sae_dev.Vue.InventaireVue;
 import universite_paris8.iut.wad.sae_dev.Vue.TerrainVue;
 

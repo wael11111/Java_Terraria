@@ -1,4 +1,10 @@
-package universite_paris8.iut.wad.sae_dev.Modele;
+package universite_paris8.iut.wad.sae_dev.Modele.Utilisables;
+
+import universite_paris8.iut.wad.sae_dev.Modele.Entites.Ennemi;
+import universite_paris8.iut.wad.sae_dev.Modele.Role;
+import universite_paris8.iut.wad.sae_dev.Modele.Terraformer;
+import universite_paris8.iut.wad.sae_dev.Modele.Terrain;
+import universite_paris8.iut.wad.sae_dev.Modele.TypeMateriaux;
 
 public class Epee extends ObjetUtilisable {
 

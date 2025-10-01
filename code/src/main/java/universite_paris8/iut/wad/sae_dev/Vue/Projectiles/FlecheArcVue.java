@@ -1,8 +1,8 @@
-package universite_paris8.iut.wad.sae_dev.Vue;
+package universite_paris8.iut.wad.sae_dev.Vue.Projectiles;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
-import universite_paris8.iut.wad.sae_dev.Modele.Projectile;
+import universite_paris8.iut.wad.sae_dev.Modele.Projectiles.Projectile;
 
 public class FlecheArcVue extends ProjectileVue {
 

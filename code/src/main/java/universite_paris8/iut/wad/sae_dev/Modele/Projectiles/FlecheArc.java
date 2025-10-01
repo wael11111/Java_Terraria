@@ -1,4 +1,7 @@
-package universite_paris8.iut.wad.sae_dev.Modele;
+package universite_paris8.iut.wad.sae_dev.Modele.Projectiles;
+
+import universite_paris8.iut.wad.sae_dev.Modele.Entites.Ennemi;
+import universite_paris8.iut.wad.sae_dev.Modele.Terrain;
 
 public class FlecheArc extends Projectile {
 

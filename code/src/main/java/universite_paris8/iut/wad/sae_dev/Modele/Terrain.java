@@ -2,6 +2,10 @@
 
 package universite_paris8.iut.wad.sae_dev.Modele;
 
+import universite_paris8.iut.wad.sae_dev.Modele.Entites.Ennemi;
+import universite_paris8.iut.wad.sae_dev.Modele.Entites.Joueur;
+import universite_paris8.iut.wad.sae_dev.Modele.Projectiles.Projectile;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

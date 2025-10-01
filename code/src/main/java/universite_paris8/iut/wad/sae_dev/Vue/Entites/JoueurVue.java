@@ -1,9 +1,11 @@
 // Cette classe crée et affiche le joueur à l'écran en héritant de PersonneVue.
-package universite_paris8.iut.wad.sae_dev.Vue;
+package universite_paris8.iut.wad.sae_dev.Vue.Entites;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import universite_paris8.iut.wad.sae_dev.Modele.*;
+import universite_paris8.iut.wad.sae_dev.Modele.Entites.Joueur;
+import universite_paris8.iut.wad.sae_dev.Modele.Utilisables.ObjetUtilisable;
 
 public class JoueurVue extends PersonnageVue {
 
