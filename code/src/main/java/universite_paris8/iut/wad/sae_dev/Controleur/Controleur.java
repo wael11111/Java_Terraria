@@ -82,6 +82,7 @@ public class Controleur implements Initializable {
     private Clavier clavier;
     private Souris souris;
     private Terraformer terraformer;
+    private Jeu jeu;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -121,13 +122,13 @@ public class Controleur implements Initializable {
         inventaire = new Inventaire();
         joueur = new Joueur(0, 100, terrain);
         terrain.setJoueur(joueur);
+        jeu = new Jeu(terrain, joueur);
         pnjJake = new PnjJake(100, 650, terrain, joueur);
         brosseADent = new BrosseADent(300, 100, terrain, joueur);
-        terrain.ajouterEnnemi(brosseADent);
+        jeu.ajouterEnnemi(brosseADent);
         dentifriceVolant = new DentifriceVolant(300, 200, terrain, joueur);
-        terrain.ajouterEnnemi(dentifriceVolant);
+        jeu.ajouterEnnemi(dentifriceVolant);
         pnjDonut = new PnjDonut(720, 500, joueur, terrain);
-        projectiles = new ArrayList<>();
     }
 
     /**
@@ -186,8 +187,14 @@ public class Controleur implements Initializable {
      */
     public void mettreAJourJeu() {
         deplacerPersonnages();
-        gererProjectiles();
-        gererVie();
+
+        List<Projectile> nouveaux = jeu.gererProjectiles();
+        for (Projectile p : nouveaux) {
+            terrainVue.ajouterProjectileVue(new ProjectileDentifriceVue((ProjectileDentifrice)p, paneCamera));
+        }
+
+        jeu.gererCollisionsEnnemisJoueur();
+        terrainVue.majProjectiles();
         verifierEtatJeu();
         joueurVue.cameraPersonnage();
     }
@@ -195,148 +202,18 @@ public class Controleur implements Initializable {
     /**
      * Met à jour les déplacements de tous les personnages
      */
-    /**
-     * Met à jour les déplacements de tous les personnages
-     */
     public void deplacerPersonnages() {
         joueur.seDeplacer();
         pnjJake.seDeplacer();
         pnjDonut.seDeplacer();
-
-        if (!brosseADent.estMort()) {
-            brosseADent.seDeplacer();
-        }
-
-        if (!dentifriceVolant.estMort()) {
-            dentifriceVolant.seDeplacer();
-        }
-
+        jeu.deplacerEnnemis(); // Délégation au modèle
         pnjJakeVue.mettreAJourAffichage();
     }
-// Dans la méthode gererProjectiles() du Controleur.java, ajoutez cette logique :
-//TODO A DEPLACER
-    public void gererProjectiles() {
-        // Création de nouveaux projectiles du dentifrice volant
-        if (dentifriceVolant.peutTirer()) {
-            creerProjectileDentifrice();
-            dentifriceVolant.reinitialiserCompteurTir();
-        }
-
-        // Mise à jour de tous les projectiles du terrain
-        terrain.miseAJourProjectiles();
-
-        // NOUVELLE LOGIQUE : Gestion des collisions projectiles du joueur avec ennemis
-        gererCollisionsProjectilesEnnemis();
-
-        // Mise à jour de l'affichage des projectiles
-        terrainVue.majProjectiles();
-    }
-
-    /**
-     * Gère les collisions entre les projectiles du joueur et les ennemis
-     */
-    //TODO A DEPlACER
-    private void gererCollisionsProjectilesEnnemis() {
-        List<Projectile> projectilesASupprimer = new ArrayList<>();
-
-        for (Projectile projectile : terrain.getProjectiles()) {
-            if (projectile.estProjectileDuJoueur() && projectile.estActif()) {
-
-                // Collision avec BrosseADent
-                if (!brosseADent.estMort() && projectileToucheEnnemi(projectile, brosseADent)) {
-                    brosseADent.subirDegats(1);
-                    projectile.desactiver();
-                    projectilesASupprimer.add(projectile);
-
-                    if (brosseADent.estMort()) {
-                        System.out.println("BrosseADent éliminée !");
-                        // Retirer complètement l'ennemi de l'affichage
-                        paneCamera.getChildren().remove(brosseADentVue.getImageView());
-                        terrain.retirerEnnemi(brosseADent);
-                    }
-                }
-
-                // Collision avec DentifriceVolant
-                if (!dentifriceVolant.estMort() && projectileToucheEnnemi(projectile, dentifriceVolant)) {
-                    dentifriceVolant.subirDegats(1);
-                    projectile.desactiver();
-                    projectilesASupprimer.add(projectile);
-
-                    if (dentifriceVolant.estMort()) {
-                        System.out.println("DentifriceVolant éliminé !");
-                        // Retirer complètement l'ennemi de l'affichage
-                        paneCamera.getChildren().remove(DentifriceVolantVue.getImageView());
-                        terrain.retirerEnnemi(dentifriceVolant);
-                    }
-                }
-            }
-        }
-
-        // Supprimer les projectiles désactivés
-        for (Projectile proj : projectilesASupprimer) {
-            terrain.retirerProjectile(proj);
-        }
-    }
 
 
-    /**
-     * Vérifie si un projectile touche un ennemi
-     */
-    //TODO A DEPlACER
-
-    private boolean projectileToucheEnnemi(Projectile projectile, Ennemi ennemi) {
-        int distanceX = Math.abs(projectile.getX() - ennemi.getX());
-        int distanceY = Math.abs(projectile.getY() - ennemi.getY());
-
-        // Zone de collision (ajustable selon la taille des sprites)
-        int seuilCollision = 40;
-
-        return distanceX < seuilCollision && distanceY < seuilCollision;
-    }
-
-    //TODO A DEPlACER
-    public void creerProjectileDentifrice() {
-        int projectileX = this.dentifriceVolant.getPositionTirX();
-        int projectileY = this.dentifriceVolant.getPositionTirY();
-        ProjectileDentifrice projectileDentifrice = ProjectileDentifrice.creerProjectileVertical(projectileX, projectileY, this.terrain);
-
-        // Ajout au terrain (modèle central)
-        this.terrain.ajouterProjectile(projectileDentifrice);
-
-        // Création de la vue
-        ProjectileDentifriceVue projectileVue = new ProjectileDentifriceVue(projectileDentifrice, this.paneCamera);
-        this.terrainVue.ajouterProjectileVue(projectileVue);
-    }
-
-    //TODO A DEPlACER
-    public void gererVie() {
-        // Collision avec la brosse à dent (seulement si elle n'est pas morte)
-        if (!brosseADent.estMort() && this.brosseADent.toucheJoueur()) {
-            this.joueur.retirerVie();
-        }
-
-        for(Projectile projectile : this.terrain.getProjectiles()) {
-            if (projectile.estProjectileEnnemi() && projectile.toucheJoueur(this.joueur)) {
-                this.joueur.retirerVie();
-                System.out.println("Projectile ennemi touche le joueur!");
-                break;
-            }
-        }
-    }
-
-    //TODO A DEPlACER
     public void tirerFlecheDuJoueur(int direction) {
-        int flecheX = this.joueur.getX() + 35;
-        int flecheY = this.joueur.getY() + 10;
-
-        FlecheArc fleche = new FlecheArc(flecheX, flecheY, direction, this.terrain, 8, 300);
-
-        // Ajout au terrain (modèle central)
-        this.terrain.ajouterProjectile(fleche);
-
-        // Création de la vue
-        FlecheArcVue vue = new FlecheArcVue(fleche, this.paneCamera);
-        this.terrainVue.ajouterProjectileVue(vue);
+        FlecheArc fleche = jeu.tirerFlecheDuJoueur(direction);
+        terrainVue.ajouterProjectileVue(new FlecheArcVue(fleche, paneCamera));
     }
 
     /**
