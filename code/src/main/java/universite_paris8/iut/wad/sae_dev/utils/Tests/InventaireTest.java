@@ -1,9 +1,13 @@
-package universite_paris8.iut.wad.sae_dev.utils;
+package universite_paris8.iut.wad.sae_dev.utils.Tests;
 
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import universite_paris8.iut.wad.sae_dev.Modele.Inventaire;
+import universite_paris8.iut.wad.sae_dev.Modele.TypeMateriaux;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class InventaireTest {
 

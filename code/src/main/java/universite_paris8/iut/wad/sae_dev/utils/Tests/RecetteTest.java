@@ -1,8 +1,13 @@
-package universite_paris8.iut.wad.sae_dev.utils;
+package universite_paris8.iut.wad.sae_dev.utils.Tests;
 
 import org.junit.jupiter.api.Test;
+import universite_paris8.iut.wad.sae_dev.Modele.Recette;
+import universite_paris8.iut.wad.sae_dev.Modele.TypeMateriaux;
 
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class RecetteTest {
 

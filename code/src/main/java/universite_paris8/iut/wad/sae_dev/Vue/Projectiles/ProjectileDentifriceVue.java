@@ -13,8 +13,6 @@ public class ProjectileDentifriceVue extends ProjectileVue {
 
     @Override
     public void chargerImage() {
-        // Temporairement, on utilise une image simple
-        // TODO: Remplacer par la vraie image de boule de dentifrice
         this.projectileImage = new Image(getClass().getResource("/universite_paris8/iut/wad/sae_dev/images/affichage/bombe.png").toExternalForm());
 
     }
