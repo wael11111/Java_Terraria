@@ -121,13 +121,15 @@ public class Controleur implements Initializable {
         terrain = new Terrain();
         inventaire = new Inventaire();
         joueur = new Joueur(0, 100, terrain);
-        terrain.setJoueur(joueur);
         jeu = new Jeu(terrain, joueur);
+
         pnjJake = new PnjJake(100, 650, terrain, joueur);
         brosseADent = new BrosseADent(300, 100, terrain, joueur);
         jeu.ajouterEnnemi(brosseADent);
+
         dentifriceVolant = new DentifriceVolant(300, 200, terrain, joueur);
         jeu.ajouterEnnemi(dentifriceVolant);
+
         pnjDonut = new PnjDonut(720, 500, joueur, terrain);
     }
 
@@ -146,23 +148,20 @@ public class Controleur implements Initializable {
         pnjDonutVue = new PnjDonutVue(pnjDonut, paneCamera);
         projectilesVue = new ArrayList<>();
     }
-
     /**
      * Initialise les contrôleurs d'entrée (clavier et souris)
      */
+
     public void initialiserControleurs() {
-        // Configuration du clavier
-        clavier = new Clavier(joueur, joueurVue, inventaire, terraformer, this);
+        clavier = new Clavier(joueur, joueurVue, inventaire, terraformer, this, jeu);
         paneCamera.setFocusTraversable(true);
         paneCamera.addEventHandler(KeyEvent.KEY_PRESSED, clavier);
         paneCamera.addEventHandler(KeyEvent.KEY_RELEASED, clavier);
 
-        // Configuration de la souris
         Terraformer terraformer = new Terraformer(terrain, terrainVue, joueur, inventaire, inventaireVue);
-        souris = new Souris(inventaireVue, terrainVue, terrain, joueurVue, inventaire, terraformer, paneCamera);
+        souris = new Souris(inventaireVue, terrainVue, terrain, joueurVue, inventaire, terraformer, paneCamera, jeu);
         pane.addEventHandler(MouseEvent.MOUSE_CLICKED, souris);
     }
-
     /**
      * Démarre la boucle de jeu
      */
@@ -206,10 +205,9 @@ public class Controleur implements Initializable {
         joueur.seDeplacer();
         pnjJake.seDeplacer();
         pnjDonut.seDeplacer();
-        jeu.deplacerEnnemis(); // Délégation au modèle
+        jeu.deplacerEnnemis();
         pnjJakeVue.mettreAJourAffichage();
     }
-
 
     public void tirerFlecheDuJoueur(int direction) {
         FlecheArc fleche = jeu.tirerFlecheDuJoueur(direction);

@@ -1,32 +1,19 @@
-
-
 package universite_paris8.iut.wad.sae_dev.Modele;
 
-import universite_paris8.iut.wad.sae_dev.Modele.Entites.Ennemi;
-import universite_paris8.iut.wad.sae_dev.Modele.Entites.Joueur;
-import universite_paris8.iut.wad.sae_dev.Modele.Projectiles.Projectile;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-
-/*
+/**
  * Cette classe définit la structure du terrain sous forme d'une grille de tuiles codées par des entiers.
+ * Elle gère uniquement la carte, les collisions et les modifications de blocs.
  */
-
-//TODO faire deux classes : Terrain et Jeu
-
 public class Terrain {
 
     private static final int TAILLE_TUILE = 59;
-// correspondance des blocs
-// 1 = ciel
-// 5 = pelouse de base
-// 4 = terre
-// 3 = bloc cookie
-// 2 = pelouse extremite droite
-// 6 = pelouse extremite gauche
+
+    // 1 = ciel
+    // 5 = pelouse de base
+    // 4 = terre
+    // 3 = bloc cookie
+    // 2 = pelouse droite
+    // 6 = pelouse gauche
 
     private final int[][] typesTuiles = {
             // Lignes 0-4: Ciel/Air (type 1)
@@ -41,7 +28,6 @@ public class Terrain {
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-
             // Lignes 5-19: Couches souterraines avec motifs
             {5,5,4,4,4,4,5,1,4,4,4,5,5,1,4,4,4,4,5,4,4,4,1,5,5,5,4,4,4,4,5,5},
             {4,4,4,3,4,4,4,1,4,4,4,4,4,1,4,3,4,4,4,4,4,4,1,4,4,4,4,3,4,4,4,4},
@@ -55,7 +41,6 @@ public class Terrain {
             {4,4,4,3,4,4,3,4,4,4,4,4,4,4,4,3,4,4,3,4,4,4,4,4,4,4,4,3,4,4,3,4},
             {3,4,4,4,4,4,4,3,4,4,3,3,4,3,4,4,4,4,4,4,4,3,4,4,3,3,4,3,4,4,4,4},
             {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},
-            // Lignes 20-27: Couches souterraines moyennes,
             {3,4,4,4,4,4,4,3,4,3,3,4,3,4,4,4,4,4,4,4,3,4,3,3,4,3,4,4,4,4,4,4},
             {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},
             {4,3,4,4,4,4,3,4,4,4,4,4,4,3,4,4,4,4,3,4,4,4,4,4,4,3,4,4,4,4,3,4},
@@ -69,49 +54,11 @@ public class Terrain {
             {3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3}
     };
 
-    private Joueur joueur;
-    private List<Ennemi> ennemis = new ArrayList<>();
-    private List<Projectile> projectiles = new ArrayList<>();
+    // === MÉTHODES DE GESTION DES BLOCS ===
 
-    // === GETTERS / SETTERS ===
-
-    public Joueur getJoueur() {
-        return joueur;
-    }
-
-    public void setJoueur(Joueur joueur) {
-        this.joueur = joueur;
-    }
-
-    public List<Ennemi> getListeEnnemis() {
-        return ennemis;
-    }
-
-    public void ajouterEnnemi(Ennemi e) {
-        ennemis.add(e);
-    }
-
-    public List<Projectile> getProjectiles() {
-        return projectiles;
-    }
-
-    public void ajouterProjectile(Projectile p) {
-        projectiles.add(p);
-    }
-
-    // === PROJECTILES ===
-
-    public void miseAJourProjectiles() {
-        Iterator<Projectile> it = projectiles.iterator();
-        while (it.hasNext()) {
-            Projectile p = it.next();
-            p.seDeplacer();
-            if (!p.estActif()) {
-                it.remove();
-            }
-        }
-    }
-
+    /**
+     * Retourne la version brisée d'un bloc
+     */
     public int versionBrisee(int type) {
         switch (type) {
             case 2: return 12; // extrémité droite → brisée
@@ -123,18 +70,30 @@ public class Terrain {
         }
     }
 
+    /**
+     * Vérifie si un bloc est dans un état brisé
+     */
     public boolean estBrise(int type) {
         return type >= 12 && type <= 16;
     }
 
+    /**
+     * Vérifie si un bloc est transparent
+     */
     public boolean estTransparent(int type) {
         return type >= 22 && type <= 26;
     }
 
+    /**
+     * Vérifie si un bloc est dans son état normal
+     */
     public boolean estNormal(int type) {
         return !estBrise(type) && !estTransparent(type);
     }
 
+    /**
+     * Convertit un bloc transparent en bloc normal
+     */
     public int versionNormal(int typeTransparent) {
         switch (typeTransparent) {
             case 22: return 2;
@@ -146,6 +105,9 @@ public class Terrain {
         }
     }
 
+    /**
+     * Convertit un bloc normal en bloc transparent
+     */
     public int versionTransparente(int typeNormal) {
         switch (typeNormal) {
             case 2: return 22;
@@ -157,10 +119,25 @@ public class Terrain {
         }
     }
 
+    // === MÉTHODES D'ACCÈS AUX TUILES ===
 
+    /**
+     * Retourne le type de tuile à une position donnée
+     */
     public int typeTuile(int x, int y) {
         return this.typesTuiles[y][x];
     }
+
+    /**
+     * Modifie le type de bloc à une position donnée
+     */
+    public void modifierBloc(int x, int y, int nouveauType) {
+        if (x >= 0 && x < largeur() && y >= 0 && y < hauteur()) {
+            typesTuiles[y][x] = nouveauType;
+        }
+    }
+
+    // === DIMENSIONS DU TERRAIN ===
 
     public int hauteur() {
         return this.typesTuiles.length;
@@ -182,6 +159,26 @@ public class Terrain {
         return TAILLE_TUILE;
     }
 
+    // === CONVERSIONS COORDONNÉES ===
+
+    public int getColonne(int pixelX) {
+        return pixelX / TAILLE_TUILE;
+    }
+
+    public int getLigne(int pixelY) {
+        return pixelY / TAILLE_TUILE;
+    }
+
+    public int ligne() {
+        return hauteur();
+    }
+
+    public int colonne() {
+        return largeur();
+    }
+
+    // === GESTION DES COLLISIONS ===
+
     public boolean collision(int tuileX, int tuileY) {
         int colonne = tuileX / TAILLE_TUILE;
         int ligne = tuileY / TAILLE_TUILE;
@@ -191,61 +188,7 @@ public class Terrain {
         }
 
         int type = typeTuile(colonne, ligne);
-        return type != 1 && !(type >= 22 && type <= 26); // Peut traverser si c'est une case ciel ou une case transparente
-    }
-
-    public void modifierBloc(int x, int y, int nouveauType) {
-        if (x >= 0 && x < largeur() && y >= 0 && y < hauteur()) {
-            typesTuiles[y][x] = nouveauType;
-        }
-    }
-
-    /**
-     * Retire un ennemi de la liste des ennemis
-     */
-    public void retirerEnnemi(Ennemi ennemi) {
-        if (ennemis != null) {
-            ennemis.remove(ennemi);
-            System.out.println("Ennemi retiré du terrain");
-        }
-    }
-
-    /**
-     * Retire un projectile de la liste des projectiles
-     */
-    public void retirerProjectile(Projectile projectile) {
-        if (projectiles != null) {
-            projectiles.remove(projectile);
-        }
-    }
-
-    // Ajoutez ces méthodes à votre classe Terrain.java
-
-    /**
-     * Convertit une coordonnée pixel X en coordonnée de colonne de grille
-     */
-    public int getColonne(int pixelX) {
-        return pixelX / TAILLE_TUILE;
-    }
-
-    /**
-     * Convertit une coordonnée pixel Y en coordonnée de ligne de grille
-     */
-    public int getLigne(int pixelY) {
-        return pixelY / TAILLE_TUILE;
-    }
-
-    /**
-     * Retourne le nombre de lignes du terrain
-     */
-    public int ligne() {
-        return hauteur();
-    }
-
-    /**
-     * Retourne le nombre de colonnes du terrain
-     */
-    public int colonne() {
-        return largeur();
+        // Peut traverser si c'est une case ciel ou une case transparente
+        return type != 1 && !(type >= 22 && type <= 26);
     }
 }

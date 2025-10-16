@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Inventaire {
-    // SI l'inventaire est fermé quand on joue ObservableLIst ne sert à rien, ça pourrait une list simple
-    // SI l'inventaire reste affiché, il faut poser unlistener sur l'observablelist
     private final List<TypeMateriaux> materiaux;
     private final List<Integer> quantites;
     private int caseSelectionnee;
@@ -38,7 +36,7 @@ public class Inventaire {
         this.caseSelectionnee = -1;
     }
 
-    public int getTaille () {
+    public int getTaille() {
         return materiaux.size();
     }
 
@@ -50,7 +48,6 @@ public class Inventaire {
         return quantites.get(index);
     }
 
-    // Pour obtenir la quantité par matériau directement
     public int getQuantite(TypeMateriaux type) {
         for (int i = 0; i < materiaux.size(); i++) {
             if (materiaux.get(i) == type) {
@@ -69,19 +66,18 @@ public class Inventaire {
         return false;
     }
 
-    public void utiliserObjetActuel(Joueur joueur, Terraformer terraformer) {
+    public void utiliserObjetActuel(Joueur joueur, Jeu jeu, Terraformer terraformer) {
         ObjetUtilisable objet = getObjetSelectionne();
 
         if (objet != null && getQuantite(objet.getType()) > 0) {
             int x = joueur.getX() / joueur.getTerrain().getTailleTuile();
             int y = joueur.getY() / joueur.getTerrain().getTailleTuile();
 
-            objet.utiliser(x, y, joueur.getTerrain(), terraformer);
+            objet.utiliser(x, y, jeu, terraformer);
         } else {
             System.out.println("Aucun objet utilisable sélectionné ou quantité nulle");
         }
     }
-
 
     public boolean retirerMateriaux(TypeMateriaux type, int q) {
         for (int i = 0; i < materiaux.size(); i++) {
@@ -157,5 +153,4 @@ public class Inventaire {
         return typeBloc == 12 || typeBloc == 13 || typeBloc == 14
                 || typeBloc == 15 || typeBloc == 16;
     }
-
 }

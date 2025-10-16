@@ -9,18 +9,22 @@ public class Arc extends ObjetUtilisable {
         super("Arc", Role.ARME, TypeMateriaux.ARC);
     }
 
-
     @Override
-    public void utiliser(int x, int y, Terrain terrain, Terraformer terraformer) {
-        System.out.println(getNom() + " utilisé pour tirer une flèche");
-        System.out.println("Arc utilisé en (" + x + ", " + y + ")");
-        System.out.println("Liste ennemis : " + terrain.getListeEnnemis().size());
+    public void utiliser(int x, int y, Jeu jeu, Terraformer terraformer) {
+        Joueur joueur = jeu.getJoueur();
+        Terrain terrain = jeu.getTerrain();
 
-        Joueur joueur = terrain.getJoueur();
+        int flecheX = joueur.getX() + 35;
+        int flecheY = joueur.getY() + 10;
+        FlecheArc fleche = new FlecheArc(
+                flecheX,
+                flecheY,
+                joueur.getDirection(),
+                terrain,
+                10,
+                300
+        );
 
-
-        FlecheArc fleche = new FlecheArc(joueur.getX(), joueur.getY(), joueur.getDirection(), terrain, 10,300);
-        terrain.ajouterProjectile(fleche);
-
+        jeu.ajouterProjectile(fleche);
     }
 }

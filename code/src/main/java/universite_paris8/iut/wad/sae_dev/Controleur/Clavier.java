@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import universite_paris8.iut.wad.sae_dev.Modele.Inventaire;
+import universite_paris8.iut.wad.sae_dev.Modele.Jeu;
 import universite_paris8.iut.wad.sae_dev.Modele.Entites.Joueur;
 import universite_paris8.iut.wad.sae_dev.Modele.Terraformer;
 import universite_paris8.iut.wad.sae_dev.Modele.TypeMateriaux;
@@ -19,13 +20,17 @@ public class Clavier implements EventHandler<KeyEvent> {
     private Inventaire inventaire;
     private Terraformer terraformer;
     private Controleur controleur;
+    private Jeu jeu; //  AJOUT
 
-    public Clavier(Joueur joueur, JoueurVue joueurVue,Inventaire inventaire, Terraformer terraformer,   Controleur controleur) {
+
+    public Clavier(Joueur joueur, JoueurVue joueurVue, Inventaire inventaire,
+                   Terraformer terraformer, Controleur controleur, Jeu jeu) {
         this.joueur = joueur;
         this.joueurVue = joueurVue;
         this.inventaire = inventaire;
         this.terraformer = terraformer;
         this.controleur = controleur;
+        this.jeu = jeu; //  AJOUT
     }
 
     @Override
@@ -44,20 +49,19 @@ public class Clavier implements EventHandler<KeyEvent> {
                     System.out.println("Touche saut pressée");
                     joueur.saut();
                 }
-                case F ->{
-                    inventaire.utiliserObjetActuel(joueur, terraformer);
+                case F -> {
+                    inventaire.utiliserObjetActuel(joueur, jeu, terraformer);
+
                     if (inventaire.getMateriauCaseSelectionne() == TypeMateriaux.ARC) {
                         controleur.tirerFlecheDuJoueur(derniereDirection);
                     }
                 }
-
-
             }
         }
         else if (event.getEventType() == KeyEvent.KEY_RELEASED &&
-                (event.getCode() == KeyCode.Q || event.getCode() == KeyCode.D || event.getCode() == KeyCode.LEFT || event.getCode() == KeyCode.RIGHT)) {
+                (event.getCode() == KeyCode.Q || event.getCode() == KeyCode.D ||
+                        event.getCode() == KeyCode.LEFT || event.getCode() == KeyCode.RIGHT)) {
             joueur.setDirection(0); // 0 pour immobile
-
             joueurVue.setDirectionImmobile(derniereDirection == -1);
         }
     }
