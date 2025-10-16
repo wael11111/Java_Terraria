@@ -5,8 +5,6 @@ import universite_paris8.iut.wad.sae_dev.Modele.Utilisables.ObjetUtilisable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 
 public class Inventaire {
     // SI l'inventaire est fermé quand on joue ObservableLIst ne sert à rien, ça pourrait une list simple
@@ -52,22 +50,6 @@ public class Inventaire {
         return quantites.get(index);
     }
 
-
-
-    //    public void setQuantite(int index, int quantite) {
-//        quantites.set(index, quantite);
-//    }
-//
-//    public void ajouterQuantite(int index, int q) {
-//        int actuelle = quantites.get(index);
-//        quantites.set(index, (actuelle + q));
-//    }
-//
-//    public void retirerQuantite(int index, int q) {
-//        int actuelle = quantites.get(index);
-//        quantites.set(index, Math.max(0, actuelle - q));
-//    }
-//
     // Pour obtenir la quantité par matériau directement
     public int getQuantite(TypeMateriaux type) {
         for (int i = 0; i < materiaux.size(); i++) {
@@ -77,10 +59,6 @@ public class Inventaire {
         }
         return 0;
     }
-//
-//    public List<TypeMateriaux> getListeMateriaux() {
-//        return materiaux;
-//    }
 
     public boolean contientMateriaux(TypeMateriaux type) {
         for (int i = 0; i < materiaux.size(); i++) {
@@ -132,14 +110,6 @@ public class Inventaire {
         quantites.add(q);
     }
 
-//    public TypeMateriaux getTypeSelectionne() {
-//        if (caseSelectionnee >= 0 && caseSelectionnee < materiaux.size()) {
-//            return materiaux.get(caseSelectionnee);
-//        }
-//        return null;
-//    }
-
-
     public static TypeMateriaux typeBlocVersMateriaux(int typeBloc) {
         switch (typeBloc) {
             case 2: case 12: case 15: case 16: return TypeMateriaux.PELOUSE;
@@ -183,50 +153,9 @@ public class Inventaire {
         return null;
     }
 
-
-
-
-//    public static ObjetUtilisable typeVersObjet (TypeMateriaux type){
-//        switch (type) {
-//            case EPEE -> new Epee();
-//            case HACHE -> new Arc();
-//            case PIOCHE -> new Pioche();
-//            default: return null;
-//        }
-//    }
-
     public static boolean estBlocCollectable(int typeBloc) {
         return typeBloc == 12 || typeBloc == 13 || typeBloc == 14
                 || typeBloc == 15 || typeBloc == 16;
-    }
-
-    public boolean fabriquer(TypeMateriaux typeAFabriquer) {
-        Recette recette = GestionnaireDeRecettes.getRecettePour(typeAFabriquer);
-        if (recette == null) {
-            System.out.println("Aucune recette pour ce matériau.");
-            return false;
-        }
-
-        // Vérifie si l'inventaire contient tous les ingrédients en quantité suffisante
-        for (Map.Entry<TypeMateriaux, Integer> entry : recette.getIngredients().entrySet()) {
-            TypeMateriaux ingredient = entry.getKey();
-            int quantiteRequise = entry.getValue();
-
-            if (getQuantite(ingredient) < quantiteRequise) {
-                System.out.println("Pas assez de " + ingredient + " pour fabriquer " + typeAFabriquer);
-                return false;
-            }
-        }
-
-        // Retire les ingrédients
-        for (Map.Entry<TypeMateriaux, Integer> entry : recette.getIngredients().entrySet()) {
-            retirerMateriaux(entry.getKey(), entry.getValue());
-        }
-
-        // Ajoute l'objet fabriqué
-        ajouterMateriaux(typeAFabriquer, 1);
-        System.out.println("Fabrication réussie de : " + typeAFabriquer);
-        return true;
     }
 
 }
