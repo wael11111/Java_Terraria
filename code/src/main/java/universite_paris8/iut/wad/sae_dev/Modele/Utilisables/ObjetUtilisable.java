@@ -9,6 +9,7 @@ public abstract class ObjetUtilisable {
     private final String nom;
     private final Role role;
     private final TypeMateriaux type;
+    protected UtilisationObjet utilisation;
 
     public ObjetUtilisable(String nom, Role role, TypeMateriaux type) {
         this.nom = nom;
@@ -28,6 +29,10 @@ public abstract class ObjetUtilisable {
         return this.type;
     }
 
-    // Passer Jeu car c'est le modèle principal qui orchestre tout
-    public abstract void utiliser(int x, int y, Jeu jeu, Terraformer terraformer);
+    public void utiliser(int x, int y, Jeu jeu, Terraformer terraformer){
+        if (this.utilisation != null){
+            utilisation.utiliser(x, y, jeu, terraformer);
+        }
+    }
+
 }
