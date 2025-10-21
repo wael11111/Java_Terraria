@@ -1,12 +1,11 @@
 package universite_paris8.iut.wad.sae_dev.Modele.Utilisables;
 
+import universite_paris8.iut.wad.sae_dev.Modele.Jeu;
 import universite_paris8.iut.wad.sae_dev.Modele.Role;
 import universite_paris8.iut.wad.sae_dev.Modele.Terraformer;
-import universite_paris8.iut.wad.sae_dev.Modele.Terrain;
 import universite_paris8.iut.wad.sae_dev.Modele.TypeMateriaux;
 
 public abstract class ObjetUtilisable {
-
     private final String nom;
     private final Role role;
     private final TypeMateriaux type;
@@ -17,7 +16,7 @@ public abstract class ObjetUtilisable {
         this.type = type;
     }
 
-    public String getNom () {
+    public String getNom() {
         return this.nom;
     }
 
@@ -29,5 +28,6 @@ public abstract class ObjetUtilisable {
         return this.type;
     }
 
-    public abstract void utiliser (int x, int y, Terrain terrain, Terraformer terraformer);
+    // Passer Jeu car c'est le modèle principal qui orchestre tout
+    public abstract void utiliser(int x, int y, Jeu jeu, Terraformer terraformer);
 }

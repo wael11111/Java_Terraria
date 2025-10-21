@@ -23,8 +23,11 @@ public class Souris implements EventHandler<MouseEvent> {
     private Inventaire inventaire;
     private Terraformer terraformer;
     private javafx.scene.layout.Pane paneCamera;
+    private Jeu jeu;
 
-    public Souris(InventaireVue inventaireVue, TerrainVue terrainVue, Terrain terrain, JoueurVue joueurVue, Inventaire inventaire, Terraformer terraformer, javafx.scene.layout.Pane paneCamera) {
+    public Souris(InventaireVue inventaireVue, TerrainVue terrainVue, Terrain terrain,
+                  JoueurVue joueurVue, Inventaire inventaire, Terraformer terraformer,
+                  javafx.scene.layout.Pane paneCamera, Jeu jeu) {
         this.inventaireVue = inventaireVue;
         this.terrainVue = terrainVue;
         this.terrain = terrain;
@@ -32,6 +35,7 @@ public class Souris implements EventHandler<MouseEvent> {
         this.inventaire = inventaire;
         this.terraformer = terraformer;
         this.paneCamera = paneCamera;
+        this.jeu = jeu;
     }
 
     @Override
@@ -46,31 +50,28 @@ public class Souris implements EventHandler<MouseEvent> {
             double clicXAjuste = clicX - decalageX;
             double clicYAjuste = clicY - decalageY;
 
-            // Gestion de l'inventaire (coordonnées originales)
             if (!inventaireVue.gererClicInventaire(clicX, clicY)) {
-                // Sélection d'une case d'inventaire
                 double zoneX = 350;
                 double zoneY = 60;
                 int tailleCase = 56;
                 int nbCases = inventaire.getTaille();
 
-            if (clicY >= zoneY && clicY <= zoneY + tailleCase) {
-                for (int i = 0; i < nbCases; i++) {
-                    double xMin = zoneX + i * tailleCase;
-                    double xMax = xMin + tailleCase;
+                if (clicY >= zoneY && clicY <= zoneY + tailleCase) {
+                    for (int i = 0; i < nbCases; i++) {
+                        double xMin = zoneX + i * tailleCase;
+                        double xMax = xMin + tailleCase;
 
-                    if (clicX >= xMin && clicX <= xMax) {
-                        inventaire.selectionnerCase(i);
-                        ObjetUtilisable outil = inventaire.getObjetSelectionne();
-                        joueurVue.changerImageSelonOutil(outil);
-                        System.out.println("Sélectionné : case " + i + " → " + inventaire.getMateriau(i));
-                        inventaireVue.rafraichirAffichage(); // met à jour visuel
-                        break;
+                        if (clicX >= xMin && clicX <= xMax) {
+                            inventaire.selectionnerCase(i);
+                            ObjetUtilisable outil = inventaire.getObjetSelectionne();
+                            joueurVue.changerImageSelonOutil(outil);
+                            System.out.println("Sélectionné : case " + i + " → " + inventaire.getMateriau(i));
+                            inventaireVue.rafraichirAffichage(); // met à jour visuel
+                            break;
+                        }
                     }
                 }
-            }
 
-                // Actions sur le terrain (coordonnées ajustées)
                 int tailleTuile = terrain.getTailleTuile();
                 int x = (int) (clicXAjuste / tailleTuile);
                 int y = (int) (clicYAjuste / tailleTuile);
@@ -80,7 +81,7 @@ public class Souris implements EventHandler<MouseEvent> {
                 if (event.getButton() == MouseButton.PRIMARY) {
                     ObjetUtilisable outil = inventaire.getObjetSelectionne();
                     if (outil != null && outil.getRole() == Role.OUTIL) {
-                        outil.utiliser(x-2, y, terrain, terraformer);
+                        outil.utiliser(x-2, y, jeu, terraformer);
                     }
                 } else if (event.getButton() == MouseButton.SECONDARY) {
                     if (selection != null && selection.getRole() == Role.CONSTRUCTION) {
