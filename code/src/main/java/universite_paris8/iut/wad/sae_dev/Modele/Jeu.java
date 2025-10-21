@@ -12,17 +12,25 @@ import java.util.List;
  * Gère les ennemis, projectiles, collisions et interactions entre entités.
  */
 public class Jeu {
+    private static Jeu uniqueInstance = null;
     private Terrain terrain;
     private Joueur joueur;
     private List<Ennemi> ennemis;
     private List<Projectile> projectiles;
     private static final int SEUIL_COLLISION = 40;
 
-    public Jeu(Terrain terrain, Joueur joueur) {
+    private Jeu(Terrain terrain, Joueur joueur) {
         this.terrain = terrain;
         this.joueur = joueur;
         this.ennemis = new ArrayList<>();
         this.projectiles = new ArrayList<>();
+    }
+
+    public static Jeu getInstance(Terrain terrain, Joueur joueur) {
+        if (uniqueInstance == null) {
+            uniqueInstance = new Jeu(terrain, joueur);
+        }
+        return uniqueInstance;
     }
 
     // === GESTION DES ENNEMIS ===

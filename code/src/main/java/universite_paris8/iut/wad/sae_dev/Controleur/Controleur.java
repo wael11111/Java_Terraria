@@ -121,7 +121,7 @@ public class Controleur implements Initializable {
         terrain = new Terrain();
         inventaire = new Inventaire();
         joueur = new Joueur(0, 100, terrain);
-        jeu = new Jeu(terrain, joueur);
+        jeu = Jeu.getInstance(terrain,joueur);
 
         pnjJake = new PnjJake(100, 650, terrain, joueur);
         brosseADent = new BrosseADent(300, 100, terrain, joueur);
