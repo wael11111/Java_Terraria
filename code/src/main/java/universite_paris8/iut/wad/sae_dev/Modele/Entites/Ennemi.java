@@ -14,8 +14,6 @@ public abstract class Ennemi extends Personnage {
     public Ennemi(int x, int y, Terrain terrain, Joueur joueur, int largeur, int hauteur) {
         super(x, y, largeur, hauteur, 5, 2, terrain);
         this.joueur = joueur;
-        // Ne pas mettre setDansLesAirs(true) ici !
-        // Chaque ennemi gère sa propre gravité dans son constructeur
     }
 
     /**
@@ -26,12 +24,10 @@ public abstract class Ennemi extends Personnage {
     protected void effectuerDeplacementSpecifique() {
         compteur++;
 
-        // Réinitialiser le compteur pour éviter qu'il devienne trop grand
         if (compteur > 1000) {
             compteur = 0;
         }
 
-        // Comportement spécifique à chaque ennemi
         comportementEnnemi();
     }
 

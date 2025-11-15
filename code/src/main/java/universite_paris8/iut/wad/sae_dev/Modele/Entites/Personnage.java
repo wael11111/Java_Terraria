@@ -46,10 +46,8 @@ public abstract class Personnage {
          * Cette méthode ne doit PAS être surchargée par les sous-classes
          */
         public final void seDeplacer() {
-                // Étape 1 : Comportement spécifique (méthode abstraite)
                 effectuerDeplacementSpecifique();
 
-                // Étape 2 : Comportement commun (gravité)
                 appliquerGravite();
         }
 
@@ -143,10 +141,6 @@ public abstract class Personnage {
 
         public boolean estMort() {
                 return this.vie.get() <= 0;
-        }
-
-        public void guerirCompletement() {
-                this.vie.set(vieMax);
         }
 
         // === GETTERS / SETTERS / PROPERTIES ===
