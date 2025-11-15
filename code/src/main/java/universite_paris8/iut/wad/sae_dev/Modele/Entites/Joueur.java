@@ -11,13 +11,12 @@ public class Joueur extends Personnage {
     }
 
     @Override
-    public void seDeplacer() {
+    protected void effectuerDeplacementSpecifique() {
         switch (getDirection()) {
             case -1 -> deplacerGauche();
             case 1 -> deplacerDroite();
             // 0 = immobile
         }
-        appliquerGravite();
     }
 
     public void saut() {
@@ -29,7 +28,4 @@ public class Joueur extends Personnage {
             }
         }
     }
-
-
-
 }
