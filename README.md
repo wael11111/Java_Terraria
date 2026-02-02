@@ -19,15 +19,15 @@ Il s'agit d'un jeu vidéo reprenant les mécaniques emblématiques du célèbre 
 - MVC (Modèle-Vue-Contrôleur)
 
 ## Installation et exécution
-Le projet est une application Java.
 
-1. Cloner le dépôt
-2. Ouvrir le projet dans un IDE compatible Java (IntelliJ IDEA, Eclipse, etc.)
-3. Lancer l’application depuis la classe principale (`Lancement`)
+Le projet est une application Java développée avec JavaFX.
 
-Des documents sont à disposition dans le dossier `docs/` comme fil conducteur,  
-et un journal de bord est disponible afin d'illustrer l'évolution du projet.  
-Aucune base de données ni serveur externe n’est requis.
+Pour des instructions détaillées concernant l’installation et le lancement du projet  
+(depuis un IDE ou en ligne de commande avec Maven),  
+[veuillez consulter le guide dédié](./HOWTO.md).
+
+Des documents sont également disponibles dans le dossier `docs/`  
+ainsi qu’un journal de bord illustrant l’évolution du projet.
 
 ## Direction artistique
 L’univers du jeu s’inspire d’un style coloré et cartoon, rappelant notamment :
